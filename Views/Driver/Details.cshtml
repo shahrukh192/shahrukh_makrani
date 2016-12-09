@@ -1,0 +1,344 @@
+﻿@model AdminPanel.Models.DriverDetailsModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@Html.AntiForgeryToken()
+
+<section class="content-header">
+    <h1>
+        Drivers
+        <small>Details</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/Driver/AdvanceSearch">Drivers</a></li>
+        <li class="active">Details</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="panel-group">
+        <div class="panel-body">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#divPersonal" data-toggle="tab" aria-expanded="false">Personal Details</a></li>
+                    <li class=""><a href="#divDocument" data-toggle="tab" aria-expanded="false">Document Details</a></li>
+                    <li class=""><a href="#divCar" data-toggle="tab" aria-expanded="true">Car Details</a></li>
+                    <li class=""><a href="#divRide" data-toggle="tab" aria-expanded="false">Ride Details</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="divPersonal">
+                        <section class="content">
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="form-horizontal">
+                                            @foreach (var item in Model.lstDriverDetailsEntityData)
+                                            {
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <label>Name: </label>
+                                                                @Html.DisplayFor(model => item.Name)
+                                                            </td>
+                                                            <td>
+                                                                <label>Mobile: </label>
+                                                                @Html.DisplayFor(model => item.Mobile)
+                                                            </td>
+                                                            <td>
+                                                                <label>Verified: </label>
+                                                                @(item.IsVerified == 1 ? "Pending" : item.IsVerified == 2 ? "InProcess" : item.IsVerified == 3 ? "Declined" : item.IsVerified == 4 ? "Accepted" : "NOT SPECIFIED")
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <label>Email: </label>
+                                                                @Html.DisplayFor(model => item.Email)
+                                                            </td>
+                                                            <td>
+                                                                <label>Gender: </label>
+                                                                @Html.DisplayFor(model => item.Gender)
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label>Mobile Verified: </label>
+                                                                @(item.IsMobileVerified == true ? "Yes" : "No")
+                                                            </td>
+                                                            <td>
+                                                                <label>Active: </label>
+                                                                @(item.IsActive == true ? "Yes" : "No")
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label>Available: </label>
+                                                                @(item.IsAvailable == true ? "Yes" : "No")
+                                                            </td>
+                                                            <td>
+                                                                <label>On Ride: </label>
+                                                                @(item.IsOnRide == true ? "Yes" : "No")
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="tab-pane" id="divDocument">
+                        <section class="content">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">
+                                                    #
+                                                </th>
+                                                <th>
+                                                    Document(s)
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.lstDriverDocumentsDetailsEntityData.Any())
+                                            {
+                                                foreach (var item in Model.lstDriverDocumentsDetailsEntityData)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @(item.RowNumber + " .")
+                                                        </td>
+                                                        <td>
+                                                            @(item.DocumentType == 1 ? "Driving License" : item.DocumentType == 2 ? "Id Card" : item.DocumentType == 3 ? "Voter Id" : item.DocumentType == 4 ? "PAN Card" : "")
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="2">
+                                                        No Record Found
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="tab-pane" id="divCar">
+
+                        <section class="content">
+                            <div class="panel-group">
+                                <div class="panel panel-default panel-search">
+                                    <div class="panel-body">
+
+                                        <div class="form-horizontal">
+                                            @foreach (var item in Model.lstDriverCarDetailsEntityData)
+                                            {
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <label>Model Number:</label>
+                                                            @Html.DisplayFor(model => item.ModelNumber)
+                                                        </td>
+
+                                                        <td>
+                                                            <label>Year:</label>
+                                                            @Html.DisplayFor(model => item.Year)
+                                                        </td>
+
+                                                        <td>
+                                                            <label>PlatNumber:</label>
+                                                            @Html.DisplayFor(model => item.PlatNumber)
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <label>Color:</label>
+                                                            @Html.DisplayFor(model => item.Color)
+                                                        </td>
+
+                                                        <td>
+                                                            <label>Doors:</label>
+                                                            @Html.DisplayFor(model => item.Doors)
+                                                        </td>
+
+                                                        <td>
+                                                            <label>Make:</label>
+                                                            @Html.DisplayFor(model => item.Make)
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <label>Passenger:</label>
+                                                            @Html.DisplayFor(model => item.Passenger)
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <div class="tab-pane active" id="divRide">
+
+                        <section class="content">
+                            <div class="panel-group">
+                                <div class="panel panel-default panel-search">
+                                    <div class="panel-body">
+                                        <table class="table-striped table-condensed table-bordered table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+
+                                                    <th nowrap>
+                                                        Ride No.
+                                                    </th>
+                                                    <th style="text-align:center" valign="top">
+                                                        Started On
+                                                    </th>
+                                                    <th style="text-align:center">
+                                                        End On
+                                                    </th>
+                                                    <th>
+                                                        Source
+                                                    </th>
+
+                                                    <th>
+                                                        Destination
+                                                    </th>
+
+                                                    <th style="text-align:center">
+                                                        Actual Destination
+                                                    </th>
+
+                                                    <th>
+                                                        Distance Travelled
+                                                    </th>
+
+                                                    <th style="text-align:center">
+                                                        Ride Amount
+                                                    </th>
+
+                                                    <th style="text-align:center">
+                                                        Amount Paid
+                                                    </th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @if (Model.lstDriverRideDetailsEntityData.Any())
+                                                {
+                                                    foreach (var item in Model.lstDriverRideDetailsEntityData)
+                                                    {
+
+                                                        <tr>
+                                                            <td nowrap>
+                                                                @(item.RowNumber + " .")
+                                                            </td>
+
+                                                            <td>
+                                                                @item.RideNo
+                                                            </td>
+                                                            <td nowrap>
+                                                                @item.StartedOn
+                                                            </td>
+                                                            <td nowrap>
+                                                                @item.EndOn
+                                                            </td>
+                                                            <td>
+                                                                @item.Source
+                                                            </td>
+
+                                                            <td>
+                                                                @item.Destination
+                                                            </td>
+
+                                                            <td>
+                                                                @item.ActualDestination
+                                                            </td>
+
+                                                            <td style="text-align:center">
+                                                                @item.DistanceTravelled
+                                                            </td>
+
+                                                            <td style="text-align:center">
+                                                                @item.RideAmount
+                                                            </td>
+
+                                                            <td style="text-align:center">
+                                                                @(item.IsAmountPaid == true ? "Yes" : "No")
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="10">
+                                                            No Record Found
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //var sidebarCollapse = "sidebar-collapse";
+
+            //var bodyClass = $("body").attr("class");
+            //if (bodyClass.indexOf(sidebarCollapse) < 0) {
+            //    bodyClass += " hold-transition " + sidebarCollapse + " fixed"
+            //    $("body").attr("class", bodyClass)
+            //}
+
+            $("body").addClass('sidebar-collapse');
+
+        });
+    </script>
+}
